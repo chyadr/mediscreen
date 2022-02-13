@@ -1,0 +1,114 @@
+
+<div class="container">
+  <div *ngIf="errors"> 
+    <div class="alert alert-danger" *ngFor="let error of errors">
+      <span>{{error.fieldName}} | {{error.message}}</span>
+    </div>
+  </div>
+<form name="patientForm" role="form" ngNativeValidate (ngSubmit)="save()" #patientForm="ngForm">
+
+  <div class="row" [hidden]="!patient.id">
+    <div class="col-sm-6">
+  <div class="form-group">
+    <label for="id">Id</label>
+    <input type="text" class="form-control" id="id"
+           readonly
+           [(ngModel)]="patient.id" name="id">
+  </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+  <div class="form-group">
+    <label for="family">Family</label>
+    <input type="text" class="form-control" id="family"
+           required
+           [(ngModel)]="patient.family" name="family">
+  </div>
+</div>
+</div>
+<div class="row">
+  <div class="col-sm-6">
+  <div class="form-group">
+    <label for="given">Given</label>
+    <input type="text" class="form-control" id="given"
+           required
+           [(ngModel)]="patient.given" name="given">
+  </div>
+</div>
+</div>
+<div class="row">
+  <div class="col-sm-6">
+  <div class="form-group">
+    <mat-form-field appearance="fill">
+      <mat-label>Choose a date of birth</mat-label>
+      <input matInput [matDatepicker]="picker" name="dob" id="dob" [(ngModel)]="patient.dob">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
+  </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <label for="sex">Sex : </label>
+    </div>
+  </div>
+    <div class="row">
+    <div class="col-sm-6">
+      <div class="row">
+        <div class="col-sm-6">
+          <input type="radio" id="female" name="female" value="F" [(ngModel)]="patient.sex">
+          <label for="female">Female</label>
+        </div>
+        <div class="col-sm-6">
+          <input type="radio" id="male" name="male" value="M" [(ngModel)]="patient.sex" checked>
+       <label for="male">Male</label>
+        </div>
+      </div>
+      
+    </div>
+    <div class="col-sm-6">
+      
+    </div>
+  </div>   
+<div class="row">
+  <div class="col-sm-6">
+  <div class="form-group">
+    <label for="address">Address</label>
+    <input type="text" class="form-control" id="address"
+           required
+           [(ngModel)]="patient.address" name="address">
+  </div>
+</div>
+</div>
+<div class="row">
+  <div class="col-sm-6">
+  <div class="form-group">
+    <label for="phoneNumber">Phone Number</label>
+    <input type="text" class="form-control" id="phoneNumber"
+           required
+           [(ngModel)]="patient.phoneNumber" name="phoneNumber">
+  </div>
+</div>
+</div>
+
+  <div class="row">
+      <div class="col-sm-6">
+        <div class="row">
+          <div class="col-sm-6">
+            <button type="submit" mat-button color="primary">Submit</button>
+          </div>
+          <div class="col-sm-6">
+            <button type="button" mat-button color="primary" (click)="previousState()">Cancel</button>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-sm-6">
+          
+      </div>
+  </div>
+        
+    </form>
+  </div>

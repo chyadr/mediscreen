@@ -1,0 +1,14 @@
+<section>
+    <div class="example-button-row">
+      <button [routerLink]="'update-patient'" mat-button color="primary">Add new Patient</button>
+    </div>
+  </section>
+
+<ag-grid-angular
+    style="width: 1530px; height: 600px;"
+    class="ag-theme-alpine"
+    [rowData]="patients"
+    [columnDefs]="columnDefs"
+    (gridReady)="onGridReady($event)"
+>
+</ag-grid-angular>
