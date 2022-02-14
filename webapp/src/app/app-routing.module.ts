@@ -7,7 +7,6 @@ import { PatientService } from './patients/patient.service';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { HttpResponse } from '@angular/common/http';
-import { PopupComponent } from './patients/popup/popup.component';
 
 @Injectable({ providedIn: 'root' })
 export class PatientResolve implements Resolve<IPatient | null> {

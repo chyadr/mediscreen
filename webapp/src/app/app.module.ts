@@ -19,7 +19,6 @@ import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule }   from '@angular/forms';
 import { EditRouterLinkRendererComponent } from './shared/edit-link-cell-renderer.component';
 import { DeleteRouterLinkRendererComponent } from './shared/delete-link-cell-renderer.component';
-import { PopupComponent } from './patients/popup/popup.component';
 
 
 @NgModule({
@@ -30,8 +29,7 @@ import { PopupComponent } from './patients/popup/popup.component';
     GridsComponent,
     UpdatePatientComponent,
     EditRouterLinkRendererComponent,
-    DeleteRouterLinkRendererComponent,
-    PopupComponent
+    DeleteRouterLinkRendererComponent
   ],
   imports: [
     BrowserModule,
