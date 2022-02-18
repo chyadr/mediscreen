@@ -1,0 +1,25 @@
+<section>
+  <div class="row">
+  <div class="col-sm-6">
+    <div class="example-button-row">
+      <button [routerLink]="'update-note'" mat-button color="primary">Add New Note</button>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="example-button-row">
+      <button type="button" mat-button color="primary" (click)="previousState()">Previous Screen </button>
+    </div>
+  </div>
+  </div>
+    
+    
+  </section>
+
+<ag-grid-angular
+    style="width: 1530px; height: 600px;"
+    class="ag-theme-alpine"
+    [rowData]="notes"
+    [columnDefs]="columnDefs"
+    (gridReady)="onGridReady($event)"
+>
+</ag-grid-angular>

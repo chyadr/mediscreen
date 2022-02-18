@@ -2,21 +2,18 @@ import { ThrowStmt } from '@angular/compiler';
 import { Component, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { AgRendererComponent, ICellRendererAngularComp } from 'ag-grid-angular';
-import { GridReadyEvent } from 'ag-grid-community';
-import { GridsComponent } from '../patients/grids.component';
-import { PatientService } from '../patients/patient.service';
+import { GridNoteComponent } from '../notes/grid-note.component';
 
 @Component({
     template: '<input type="image" value="test" src="assets/delete.svg" (click)="clicked($event)"/>'
 })
-export class DeleteRouterLinkRendererComponent implements ICellRendererAngularComp {
+export class NoteDeleteRouterLinkRendererComponent implements ICellRendererAngularComp {
     params: any;
 
     constructor(
         private ngZone: NgZone,
         private router: Router,
-        private patientService: PatientService,
-        private grid: GridsComponent) { }
+        private grid: GridNoteComponent) { }
 
     agInit(params: any): void {
         this.params = params;

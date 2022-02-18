@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { IPatient, Patient } from '../model/patient.model';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import * as moment from 'moment';
 import { map } from 'rxjs/operators';
 
@@ -14,7 +14,8 @@ type EntityResponseType = HttpResponse<IPatient>;
 })
 export class PatientService {
 
-  public url='http://localhost:8080/patient/';
+  public url='http://localhost:8081/patient/';
+
 
   constructor(private http: HttpClient) { }
 
@@ -29,9 +30,7 @@ export class PatientService {
     return this.http.get<IPatient>(`${this.url}${id}`,{observe: 'response'});
   }
 
-  delete(id : number) : Observable<EntityResponseType>{
-    console.log("delete call "+id);
-    
+  delete(id : number) : Observable<EntityResponseType>{    
 
      return this.http.delete<IPatient>(`${this.url}${id}`, {observe: 'response'});
   }

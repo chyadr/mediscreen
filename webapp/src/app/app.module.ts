@@ -18,7 +18,11 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule }   from '@angular/forms';
 import { EditRouterLinkRendererComponent } from './shared/edit-link-cell-renderer.component';
-import { DeleteRouterLinkRendererComponent } from './shared/delete-link-cell-renderer.component';
+import { PatientDeleteRouterLinkRendererComponent } from './shared/patient-delete-link-cell-renderer.component';
+import { GridNoteComponent } from './notes/grid-note.component';
+import { DispalyRouterLinkRendererComponent } from './shared/display-link-cell-renderer.component';
+import { UpdateNoteComponent } from './notes/update-note/update-note.component';
+import { NoteDeleteRouterLinkRendererComponent } from './shared/note-delete-link-cell-renderer.component';
 
 
 @NgModule({
@@ -29,12 +33,16 @@ import { DeleteRouterLinkRendererComponent } from './shared/delete-link-cell-ren
     GridsComponent,
     UpdatePatientComponent,
     EditRouterLinkRendererComponent,
-    DeleteRouterLinkRendererComponent
+    PatientDeleteRouterLinkRendererComponent,
+    NoteDeleteRouterLinkRendererComponent,
+    DispalyRouterLinkRendererComponent,
+    GridNoteComponent,
+    UpdateNoteComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    AgGridModule.withComponents([EditRouterLinkRendererComponent,DeleteRouterLinkRendererComponent]),
+    AgGridModule.withComponents([EditRouterLinkRendererComponent,PatientDeleteRouterLinkRendererComponent,NoteDeleteRouterLinkRendererComponent,DispalyRouterLinkRendererComponent]),
     MatTabsModule,
     BrowserAnimationsModule,
     RouterModule,
@@ -45,7 +53,7 @@ import { DeleteRouterLinkRendererComponent } from './shared/delete-link-cell-ren
     MatRadioModule,
     FormsModule
   ],
-  providers: [],
+  providers: [GridsComponent,GridNoteComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

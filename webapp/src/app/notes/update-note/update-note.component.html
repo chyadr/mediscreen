@@ -1,0 +1,70 @@
+
+<div class="container">
+    <div *ngIf="errors"> 
+      <div class="alert alert-danger" *ngFor="let error of errors">
+        <span>{{error.fieldName}} | {{error.message}}</span>
+      </div>
+    </div>
+  <form name="noteForm" role="form" ngNativeValidate (ngSubmit)="save()" #noteForm="ngForm">
+  
+    <div class="row" [hidden]="!note.id">
+      <div class="col-sm-6">
+    <div class="form-group">
+      <label for="id">Id</label>
+      <input type="text" class="form-control" id="id"
+             readonly
+             [(ngModel)]="note.id" name="id">
+    </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+    <div class="form-group">
+      <label for="patId">Patient Id</label>
+      <input type="text" class="form-control" id="patId"
+             required
+             readonly [(ngModel)]="note.patId" name="patId">
+    </div>
+  </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+    <div class="form-group">
+      <label for="patient">Patient</label>
+      <input type="text" class="form-control" id="patient"
+             required
+             [(ngModel)]="note.patient" name="patient">
+    </div>
+  </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+    <div class="form-group">
+      <label for="note">Note</label>
+      <input type="text" class="form-control" id="note"
+             required
+             [(ngModel)]="note.note" name="note">
+    </div>
+  </div>
+  </div>
+  
+  
+    <div class="row">
+        <div class="col-sm-6">
+          <div class="row">
+            <div class="col-sm-6">
+              <button type="submit" mat-button color="primary">Submit</button>
+            </div>
+            <div class="col-sm-6">
+              <button type="button" mat-button color="primary" (click)="previousState()">Cancel</button>
+            </div>
+          </div>
+  
+        </div>
+        <div class="col-sm-6">
+            
+        </div>
+    </div>
+          
+      </form>
+    </div>
