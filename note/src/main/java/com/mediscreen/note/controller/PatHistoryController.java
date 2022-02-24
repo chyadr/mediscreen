@@ -8,7 +8,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/note")
+@RequestMapping( {"/note","patHistory"})
 @CrossOrigin("*")
 public class PatHistoryController {
 
@@ -26,6 +26,16 @@ public class PatHistoryController {
     @RequestMapping(value = { "/{id}" })
     public PatHistory findById(@PathVariable("id") String id){
         return patHistoryService.findById(id);
+    }
+
+    @RequestMapping(value = { "/add" }, method = RequestMethod.POST)
+    public PatHistory add(@RequestParam("patId") String patId){
+        PatHistory patHistory = new PatHistory();
+        patHistory.setPatId(Long.valueOf(patId.substring(0,patId.indexOf("e=")-1)));
+        patHistory.setPatient(patId.substring(patId.indexOf("Patient: ") +"Patient: ".length(),patId.indexOf(" notes/recommendations: ")));
+        patHistory.setNote(patId.substring(patId.indexOf(" notes/recommendations: ") +" notes/recommendations: ".length()));
+
+        return createPatHistory(patHistory);
     }
 
     @RequestMapping(value = { "/createPatHistory" }, method = RequestMethod.POST)

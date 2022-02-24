@@ -23,6 +23,9 @@ import { GridNoteComponent } from './notes/grid-note.component';
 import { DispalyRouterLinkRendererComponent } from './shared/display-link-cell-renderer.component';
 import { UpdateNoteComponent } from './notes/update-note/update-note.component';
 import { NoteDeleteRouterLinkRendererComponent } from './shared/note-delete-link-cell-renderer.component';
+import { HealthRouterLinkRendererComponent } from './shared/health-link-cell-renderer.component';
+import { HealthComponent } from './health/health.component';
+import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 
 
 @NgModule({
@@ -37,12 +40,14 @@ import { NoteDeleteRouterLinkRendererComponent } from './shared/note-delete-link
     NoteDeleteRouterLinkRendererComponent,
     DispalyRouterLinkRendererComponent,
     GridNoteComponent,
-    UpdateNoteComponent
+    UpdateNoteComponent,
+    HealthRouterLinkRendererComponent,
+    HealthComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    AgGridModule.withComponents([EditRouterLinkRendererComponent,PatientDeleteRouterLinkRendererComponent,NoteDeleteRouterLinkRendererComponent,DispalyRouterLinkRendererComponent]),
+    AgGridModule.withComponents([EditRouterLinkRendererComponent,PatientDeleteRouterLinkRendererComponent,NoteDeleteRouterLinkRendererComponent,DispalyRouterLinkRendererComponent,HealthRouterLinkRendererComponent]),
     MatTabsModule,
     BrowserAnimationsModule,
     RouterModule,
@@ -51,9 +56,10 @@ import { NoteDeleteRouterLinkRendererComponent } from './shared/note-delete-link
     MatNativeDateModule,
     MatDatepickerModule,
     MatRadioModule,
-    FormsModule
+    FormsModule,
+    MatMomentDateModule
   ],
-  providers: [GridsComponent,GridNoteComponent],
+  providers: [GridsComponent,GridNoteComponent, { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

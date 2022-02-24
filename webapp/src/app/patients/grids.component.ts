@@ -9,6 +9,7 @@ import { EditRouterLinkRendererComponent } from '../shared/edit-link-cell-render
 import { Router } from '@angular/router';
 import { PatientDeleteRouterLinkRendererComponent } from '../shared/patient-delete-link-cell-renderer.component';
 import { DispalyRouterLinkRendererComponent } from '../shared/display-link-cell-renderer.component';
+import { HealthRouterLinkRendererComponent } from '../shared/health-link-cell-renderer.component';
 
 @Component({
   selector: 'app-grids',
@@ -35,10 +36,17 @@ export class GridsComponent implements OnInit {
     { field: 'id',maxWidth: 80 },
     { field: 'family',maxWidth: 125 },
     { field: 'given',maxWidth: 130 },
-    { field: 'dob', minWidth: 300 },
+    { field: 'dob', minWidth: 220 },
     { field: 'sex',maxWidth: 80 },
     { field: 'address' },
     { field: 'phoneNumber',maxWidth: 150},
+    {
+      field: 'Assessment', maxWidth: 150,
+      cellRenderer: HealthRouterLinkRendererComponent,
+      cellRendererParams: {
+        inRouterLink: 'health'
+      }
+    },
     {
       field: 'Notes', maxWidth: 140,
       cellRenderer: DispalyRouterLinkRendererComponent,

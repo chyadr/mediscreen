@@ -25,10 +25,7 @@ export class NoteDeleteRouterLinkRendererComponent implements ICellRendererAngul
 
     public clicked(cell: any): void {
         // show json data
-        // open modal or popout
-        console.log(this.params);
-        console.log(this.params.data.id);
-        
+        // open modal or popout        
         
         this.grid.refreshCell(this.params.data.id);
           }

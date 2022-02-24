@@ -2,10 +2,10 @@ plugins {
 	id 'org.springframework.boot' version '2.6.3'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'jacoco'
 }
 
 group = 'com.mediscreen'
-version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 repositories {
@@ -19,9 +19,31 @@ dependencies {
 	implementation 'org.postgresql:postgresql'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
 }
+
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+jacocoTestReport {
+	reports {
+		xml.enabled true
+		csv.enabled false
+		html.destination file("${buildDir}/jacocoHtml")
+	}
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it,
+					exclude: ['**/exception/**',
+							  '**/model/**'
+					]
+			)
+		}))
+	}
+}
+
+test.finalizedBy jacocoTestReport

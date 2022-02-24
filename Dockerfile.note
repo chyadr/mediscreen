@@ -1,0 +1,8 @@
+FROM adoptopenjdk/openjdk11
+RUN apt-get update && apt-get install
+
+WORKDIR /home/project9
+ADD note/build/libs/note.jar note.jar
+
+EXPOSE 8082
+ENTRYPOINT ["java","-jar","note.jar"]

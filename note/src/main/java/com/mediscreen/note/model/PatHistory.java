@@ -50,4 +50,19 @@ public class PatHistory {
     public void setNote(String note) {
         this.note = note;
     }
+
+    public PatHistory patId (Long patId){
+        this.patId=patId;
+        return this;
+    }
+
+    public PatHistory patient (String patient){
+        this.patient=patient;
+        return this;
+    }
+
+    public PatHistory note (String note){
+        this.note=note;
+        return this;
+    }
 }

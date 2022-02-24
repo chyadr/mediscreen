@@ -11,6 +11,9 @@ import { GridNoteComponent } from './notes/grid-note.component';
 import { INote, Note } from './model/note.model';
 import { NoteService } from './notes/note.service';
 import { UpdateNoteComponent } from './notes/update-note/update-note.component';
+import { HealthComponent } from './health/health.component';
+import { IHealth } from './model/health.model';
+import { HealthService } from './health/health.service';
 
 @Injectable({ providedIn: 'root' })
 export class PatientResolve implements Resolve<IPatient | null> {
@@ -48,9 +51,29 @@ export class NoteResolve implements Resolve<INote | null> {
 }
 }
 
+@Injectable({ providedIn: 'root' })
+export class HealthResolve implements Resolve<IHealth | null> {
+  health : IHealth;
+    constructor(
+      private service: HealthService) {}
+
+
+ resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IHealth | null> {
+  const id = route.params['id'] ? route.params['id'] : null;
+  if (id) {
+      return this.service.find(id).pipe(
+          filter((response: HttpResponse<Note>) => response.ok),
+          map((pt: HttpResponse<Note>) => pt.body)
+      );
+  }
+  return of(new Note());
+}
+}
+
 
 
 const appRoutes: Routes = [
+  { path: '', component:  GridsComponent},
   { path: 'patients', component:  GridsComponent},
   { path: 'patients/update-patient/:id', component:  UpdatePatientComponent,
   resolve:  {
@@ -67,16 +90,20 @@ const appRoutes: Routes = [
   { path: 'patients/notes/:patId', component:  GridNoteComponent},
   { path: 'patients/notes/:patId/update-note', component:  UpdateNoteComponent,
   resolve:  {
-    patient: NoteResolve
+    note: NoteResolve
           }},
   { path: 'patients/notes/:patId/update-note/:id', component:  UpdateNoteComponent,
   resolve:  {
-    patient: NoteResolve
+    note: NoteResolve
           }}, 
   { path: 'note', component:  UpdatePatientComponent,
   resolve:  {
-    patient: NoteResolve
-  }}
+    note: NoteResolve
+  }},
+  { path: 'patients/health/:id', component:  HealthComponent,
+  resolve:  {
+    health: HealthResolve
+          }}
   ];
 
 @NgModule({

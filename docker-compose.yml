@@ -1,0 +1,50 @@
+version: "3"
+services:
+  patient:
+    image: patient
+    ports:
+      - 8081:8081
+    environment:
+    - DB_URL=postgres:5432/patient
+    - DB_USER=postgres
+    - DB_PASSWORD=postgres
+    depends_on:
+      - postgres
+  note:
+    image: note
+    ports:
+      - 8082:8082
+    environment:
+    - MONGODB_HOST=mongodb
+  assessment:
+    image: assessment
+    ports:
+      - 8080:8080
+    environment:
+    - PATIENT_URL=http://patient:8081
+    - NOTE_URL=http://note:8082
+    links:
+      - mongodb
+  webapp:
+    image: webapp
+    build: '.'
+    ports:
+      - 4200:4200
+  mongodb:
+    image: mongo:3.5
+    restart: on-failure
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongodb:/data/note
+  postgres:
+    image: postgres:10.5
+    restart: on-failure
+    environment:
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=postgres
+    - POSTGRES_DB=patient
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgres:/data/patient

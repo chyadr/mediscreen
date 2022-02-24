@@ -1,0 +1,38 @@
+<div class="container">
+    <div *ngIf="health.patientStatus === 'None'"> 
+      <div class="alert alert-success">
+        <span>Patient : {{health.patient}} (age {{health.age}}) diabetes assessment is: {{health.patientStatus}}</span>
+      </div>
+    </div>
+
+    <div *ngIf="health.patientStatus === 'BorderLine'"> 
+        <div class="alert alert-info">
+          <span>Patient : {{health.patient}} (age {{health.age}}) diabetes assessment is: {{health.patientStatus}}</span>
+        </div>
+      </div>
+
+      <div *ngIf="health.patientStatus === 'In Danger'"> 
+        <div class="alert alert-warning">
+          <span>Patient : {{health.patient}} (age {{health.age}}) diabetes assessment is: {{health.patientStatus}}</span>
+        </div>
+      </div>
+
+      <div *ngIf="health.patientStatus === 'Early Onset'"> 
+        <div class="alert alert-danger">
+          <span>Patient : {{health.patient}}  (age {{health.age}}) diabetes assessment is: {{health.patientStatus}}</span>
+        </div>
+      </div>
+
+<div class="row">
+    <div class="col-sm-6">
+      <div class="row">
+        <div class="col-sm-6">
+          <button type="button" mat-button color="primary" (click)="previousState()">Previous Screen</button>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-sm-6">
+        
+    </div>
+</div>

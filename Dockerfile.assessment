@@ -1,0 +1,8 @@
+FROM  adoptopenjdk/openjdk11
+RUN apt-get update && apt-get install
+
+WORKDIR /home/project9
+ADD assessment/build/libs/assessment.jar assessment.jar
+
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","assessment.jar"]

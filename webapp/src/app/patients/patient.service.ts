@@ -36,13 +36,12 @@ export class PatientService {
   }
 
   createPatient(patient: IPatient) : Observable<EntityResponseType>{
-    
+
     return this.http.post<IPatient>(this.url+"createPatient",patient, {observe: 'response'})
     .pipe(map((res : EntityResponseType) => this.convertDateFromServer(res)));
   }
 
   updatePatient(patient: IPatient) : Observable<EntityResponseType>{
-    
     return this.http.put<IPatient>(this.url+"updatePatient",patient, {observe: 'response'})
     .pipe(map((res : EntityResponseType) => this.convertDateFromServer(res)));
 

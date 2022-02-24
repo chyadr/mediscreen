@@ -15,10 +15,6 @@ export class HeaderComponent implements OnInit {
         label: 'Patients',
         link: 'patients',
         index: 0
-      }, {
-        label: 'Report',
-        link: '',
-        index: 1
       }
     ];
 
