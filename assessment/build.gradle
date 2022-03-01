@@ -29,6 +29,16 @@ jacocoTestReport {
 		csv.enabled false
 		html.destination file("${buildDir}/jacocoHtml")
 	}
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it,
+					exclude: ['**/dto/**',
+							  '**/model/**',
+							  '**/AssessmentApplication*'
+					]
+			)
+		}))
+	}
 }
 
 test.finalizedBy jacocoTestReport

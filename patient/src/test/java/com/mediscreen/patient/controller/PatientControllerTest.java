@@ -11,9 +11,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
@@ -65,6 +70,22 @@ public class PatientControllerTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.family", is("family")));
+
+    }
+
+    @Test
+    public void givenPatient_whenAddPatient_thenReturnPatient() throws Exception {
+        when(patientService.createPatient(any())).thenReturn(ConstantsTest.patient);
+
+        mvc.perform(post("/patient/add").param("family","family")
+                        .param("given","given")
+                        .param("dob",LocalDate.now().minus(1, ChronoUnit.YEARS).toString())
+                        .param("sex","F")
+                        .param("address","address")
+                        .param("phone","0101010101")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk());
+
 
     }
 

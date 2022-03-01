@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AssessmentController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assessment</a> &gt; <a href="index.source.html" class="el_package">com.mediscreen.assessment.controller</a> &gt; <span class="el_source">AssessmentController.java</span></div><h1>AssessmentController.java</h1><pre class="source lang-java linenums">package com.mediscreen.assessment.controller;
+
+import com.mediscreen.assessment.service.AssessmentService;
+import com.mediscreen.assessment.util.AssessmentResponseDTO;
+import com.mediscreen.assessment.util.PatientStatus;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@CrossOrigin(&quot;*&quot;)
+public class AssessmentController {
+
+    private final AssessmentService assessmentService;
+
+<span class="fc" id="L14">    public AssessmentController(AssessmentService assessmentService) {</span>
+<span class="fc" id="L15">        this.assessmentService = assessmentService;</span>
+<span class="fc" id="L16">    }</span>
+
+
+    @RequestMapping(value = { &quot;assessment/{patId}&quot; })
+    public AssessmentResponseDTO getPatientAssessment(@PathVariable(&quot;patId&quot;) Long patId){
+<span class="fc" id="L21">        return assessmentService.getPatientAssessment(patId);</span>
+    }
+
+    @RequestMapping(value = { &quot;assess/id&quot; },method = RequestMethod.POST)
+    public String getPatientAssess(@RequestParam(&quot;patId&quot;) Long patId){
+<span class="fc" id="L26">        AssessmentResponseDTO assessmentResponseDTO= assessmentService.getPatientAssessment(patId);</span>
+<span class="fc" id="L27">        String response= &quot;Patient : &quot;.concat(assessmentResponseDTO.getPatient())</span>
+<span class="fc" id="L28">                .concat(&quot; (&quot;).concat(String.valueOf(assessmentResponseDTO.getAge())).concat(&quot; )&quot;).concat(&quot; diabetes assessment is: &quot;)</span>
+<span class="fc" id="L29">                .concat(assessmentResponseDTO.getPatientStatus());</span>
+<span class="fc" id="L30">        return response;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

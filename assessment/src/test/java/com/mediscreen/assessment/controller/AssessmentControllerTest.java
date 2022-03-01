@@ -44,4 +44,15 @@ public class AssessmentControllerTest {
           }
 
 
+    @Test
+    public void givenAssessment_whenGetPatientAssess_thenReturnPatientAssessment() throws Exception {
+        when(assessmentService.getPatientAssessment(anyLong())).thenReturn(ConstantsTest.assessmentResponseDTO);
+
+        mvc.perform(post("/assess/id").param("patId","1")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk());
+
+    }
+
+
 }

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AssessmentService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">assessment</a> &gt; <a href="index.source.html" class="el_package">com.mediscreen.assessment.service</a> &gt; <span class="el_source">AssessmentService.java</span></div><h1>AssessmentService.java</h1><pre class="source lang-java linenums">package com.mediscreen.assessment.service;
+
+import com.mediscreen.assessment.client.NoteClient;
+import com.mediscreen.assessment.client.PatientClient;
+import com.mediscreen.assessment.dto.Gender;
+import com.mediscreen.assessment.dto.NoteDTO;
+import com.mediscreen.assessment.dto.PatientDTO;
+import com.mediscreen.assessment.util.AssessmentResponseDTO;
+import com.mediscreen.assessment.util.Constants;
+import com.mediscreen.assessment.util.NoteTerms;
+import com.mediscreen.assessment.util.PatientStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import java.time.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+@Service
+public class AssessmentService implements IAssessmentService {
+
+    private final PatientClient patientClient;
+    private final NoteClient noteClient;
+
+<span class="fc" id="L27">    public AssessmentService(PatientClient patientClient, NoteClient noteClient) {</span>
+<span class="fc" id="L28">        this.patientClient = patientClient;</span>
+<span class="fc" id="L29">        this.noteClient = noteClient;</span>
+<span class="fc" id="L30">    }</span>
+
+    @Override
+    public AssessmentResponseDTO getPatientAssessment(Long patientId) {
+
+<span class="fc" id="L35">        PatientDTO patientDTO = patientClient.findPatientById(patientId);</span>
+<span class="fc" id="L36">        List&lt;NoteDTO&gt; noteDTOS = noteClient.findNotesByPatientId(patientId);</span>
+
+<span class="fc" id="L38">        int termsOccurrences = countTermsInNotes(noteDTOS);</span>
+
+
+<span class="fc" id="L41">        return getPatientStatus(patientDTO, termsOccurrences);</span>
+    }
+
+    /**
+     * Count terms in list of notes of a specific patient.
+     * @param noteDTOS list of notes.
+     * @return number of terms identified in notes.
+     */
+    private int countTermsInNotes(List&lt;NoteDTO&gt; noteDTOS) {
+<span class="fc" id="L50">        return noteDTOS.stream().map(NoteDTO::getNote)</span>
+<span class="fc" id="L51">                .map(note -&gt;</span>
+<span class="fc" id="L52">                        Arrays.stream(NoteTerms.values())</span>
+<span class="fc" id="L53">                                .map(term -&gt;</span>
+<span class="fc" id="L54">                                        StringUtils.countOccurrencesOf(note.toUpperCase(), term.getTermsValue().toUpperCase())).collect(Collectors.toList()))</span>
+<span class="fc" id="L55">                .flatMap(List::stream).mapToInt(Integer::intValue).sum();</span>
+    }
+
+    /**
+     * Get Patient Status for a specific patient and depends on number of terms/age/sex.
+     * @param patientDTO the patient.
+     * @param termsOccurrences the number of terms already calculated from patient notes.
+     * @return DTO containing all information related to the patient assessment.
+     */
+    private AssessmentResponseDTO getPatientStatus(PatientDTO patientDTO, int termsOccurrences) {
+<span class="fc" id="L65">        int age = Period.between(patientDTO.getDob().toInstant().atZone(ZoneId.of(&quot;UTC&quot;)).toLocalDate(), LocalDate.now()).getYears();</span>
+
+<span class="pc bpc" id="L67" title="1 of 4 branches missed.">        if (termsOccurrences == Constants.NB_OCCURRENCES_2 &amp;&amp; age &gt; Constants.AGE_30) {</span>
+<span class="fc" id="L68">            return getResponse(patientDTO.getFamily(),patientDTO.getGiven(),age,PatientStatus.BORDER_LINE);</span>
+        }
+<span class="pc bpc" id="L70" title="5 of 8 branches missed.">        if ((termsOccurrences == Constants.NB_OCCURRENCES_3 &amp;&amp; patientDTO.getSex().equals(Gender.M) &amp;&amp; age &lt; Constants.AGE_30)</span>
+<span class="pc bpc" id="L71" title="4 of 8 branches missed.">                || (termsOccurrences == Constants.NB_OCCURRENCES_4 &amp;&amp; patientDTO.getSex().equals(Gender.F) &amp;&amp; age &lt; Constants.AGE_30)</span>
+                || (age &gt; Constants.AGE_30 &amp;&amp; termsOccurrences == Constants.NB_OCCURRENCES_6)) {
+<span class="fc" id="L73">            return getResponse(patientDTO.getFamily(),patientDTO.getGiven(),age,PatientStatus.IN_DANGER);</span>
+        }
+<span class="pc bpc" id="L75" title="6 of 8 branches missed.">        if ((termsOccurrences == Constants.NB_OCCURRENCES_5 &amp;&amp; patientDTO.getSex().equals(Gender.M) &amp;&amp; age &lt; Constants.AGE_30)</span>
+<span class="pc bpc" id="L76" title="5 of 8 branches missed.">                || (termsOccurrences == Constants.NB_OCCURRENCES_7 &amp;&amp; patientDTO.getSex().equals(Gender.F) &amp;&amp; age &lt; Constants.AGE_30)</span>
+                || (age &gt; Constants.AGE_30 &amp;&amp; termsOccurrences &gt;= Constants.NB_OCCURRENCES_8)) {
+<span class="fc" id="L78">            return getResponse(patientDTO.getFamily(),patientDTO.getGiven(),age,PatientStatus.EARLY_ONSET);</span>
+        }
+
+<span class="fc" id="L81">        return getResponse(patientDTO.getFamily(),patientDTO.getGiven(),age,PatientStatus.NONE);</span>
+    }
+
+    /**
+     * method for concatenation of patient information.
+     * @param family the family.
+     * @param given the given.
+     * @param age the age.
+     * @param patientStatus the patient Status.
+     * @return DTO containing assessment response.
+     */
+    private AssessmentResponseDTO getResponse (String family, String given, int age, PatientStatus patientStatus ){
+<span class="fc" id="L93">        return new AssessmentResponseDTO(family.concat(&quot; &quot;).concat(given),age,patientStatus.getStatusValue());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
